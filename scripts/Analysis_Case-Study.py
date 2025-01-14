@@ -30,7 +30,7 @@ def test(model, tokenize, batch_generator, test_data, beta, logger, gpu, max_len
         asp_sent_target = test_data[batch_index].asp_sent_list
         word_list = test_data[batch_index].word_list
 
-        # 预测三元组
+       
         triplets_predict = []
         asp_predict = []
         opi_predict = []
@@ -82,7 +82,7 @@ def test(model, tokenize, batch_generator, test_data, beta, logger, gpu, max_len
         f_asp_start_index, f_asp_end_index, f_asp_prob = Utils.filter_unpaired(
             f_asp_start_prob_temp, f_asp_end_prob_temp, f_asp_start_index_temp, f_asp_end_index_temp, max_len)
 
-        # 根据预测到的切面，生成查询
+    
         for start_index in range(len(f_asp_start_index)):
             opinion_query = tokenize.convert_tokens_to_ids(
                 [word.lower() if word not in ['[CLS]', '[SEP]'] else word for word in
