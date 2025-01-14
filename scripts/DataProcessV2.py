@@ -199,7 +199,7 @@ def dataset_align(dataset_object, max_tokens_len, max_aspect_num):
     for dataset_type in dataset_type_list:
         tokenized_QA_list = dataset_object[dataset_type]
         for tokenized_QA in tokenized_QA_list:
-            # TODO 词法
+            # TODO 
             tokenized_QA.forward_asp_pos.extend([0] * (max_tokens_len - len(tokenized_QA.forward_asp_pos)))
             tokenized_QA.backward_opi_pos.extend([0] * (max_tokens_len - len(tokenized_QA.backward_opi_pos)))
             for i in range(len(tokenized_QA.forward_opi_pos)):
@@ -208,7 +208,7 @@ def dataset_align(dataset_object, max_tokens_len, max_aspect_num):
             for i in range(len(tokenized_QA.backward_asp_pos)):
                 tokenized_QA.backward_asp_pos[i].extend(
                     [0] * (max_tokens_len - len(tokenized_QA.backward_asp_pos[i])))
-            # TODO 语法
+            # TODO 
             tokenized_QA.forward_asp_dep.extend([0] * (max_tokens_len - len(tokenized_QA.forward_asp_dep)))
             tokenized_QA.backward_opi_dep.extend([0] * (max_tokens_len - len(tokenized_QA.backward_opi_dep)))
             for i in range(len(tokenized_QA.forward_opi_dep)):
