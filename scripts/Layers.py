@@ -4,8 +4,8 @@ import torch.nn as nn
 class FGM():
   
     def __init__(self, model, epsilon=0.25):
-        self.model = model                  # BERT模型
-        self.epsilon = epsilon              # 求干扰时的系数值
+        self.model = model                 
+        self.epsilon = epsilon           
         self.backup = {}
     def attack(self, emb_name='word_embeddings'):
        
