@@ -55,7 +55,7 @@ def test(model, tokenize, batch_generator, test_data, beta, logger, gpu, max_len
         asp_opi_target = test_data[batch_index].asp_opi_list
         asp_sent_target = test_data[batch_index].asp_sent_list
 
-        # 预测三元组
+    
         triplets_predict = []
         asp_predict = []
         opi_predict = []
@@ -107,7 +107,7 @@ def test(model, tokenize, batch_generator, test_data, beta, logger, gpu, max_len
         f_asp_start_index, f_asp_end_index, f_asp_prob = Utils.filter_unpaired(
             f_asp_start_prob_temp, f_asp_end_prob_temp, f_asp_start_index_temp, f_asp_end_index_temp, max_len)
 
-        # 根据预测到的切面，生成查询
+     
         for start_index in range(len(f_asp_start_index)):
             opinion_query = tokenize.convert_tokens_to_ids(
                 [word.lower() if word not in ['[CLS]', '[SEP]'] else word for word in
@@ -695,11 +695,11 @@ def train(arguments):
                 # loss
                 loss_sum.backward()
 
-                # # TODO 对抗训练，在embedding上添加对抗扰动
+              
                 # fgm.attack()
-                # _, _, _, _, _, _, loss_sum_adv = get_model_loss(model, batch_dict, max_aspect_num, arguments)  # embedding参数被修改，此时，输入序列得到的embedding表征不一样
-                # loss_sum_adv.backward()       # 反向传播，并在正常的grad基础上，累加对抗训练的梯度
-                # fgm.restore()                  # 恢复embedding参数
+                # _, _, _, _, _, _, loss_sum_adv = get_model_loss(model, batch_dict, max_aspect_num, arguments) 
+                # loss_sum_adv.backward()      
+                # fgm.restore()                 
 
                 optimizer.step()
                 scheduler.step()
