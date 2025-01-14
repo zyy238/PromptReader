@@ -30,7 +30,6 @@ class BERTModel(nn.Module):
     def __init__(self, hidden_size, bert_model_type, pos_embedding_size=32, dependency_emb=True):
 
         super(BERTModel, self).__init__()
-        # BERT模型
         if bert_model_type == './bert_base_uncased':
 
             self._bert = BertForMaskedLM.from_pretrained(bert_model_type)
@@ -43,12 +42,12 @@ class BERTModel(nn.Module):
         self.dependency_emb = dependency_emb
         self.pos_embedding_size = pos_embedding_size
 
-        # TODO 词法依赖
+        # TODO 
         if self.pos_embedding_size > 0:
             self.embeddings = nn.Embedding(len(tag_map), pos_embedding_size)
 
             last_hidden_size += pos_embedding_size
-        # TODO 语法依赖
+        # TODO 
         if dependency_emb:
             dep_matrix = np.load('./dep_utils/all_emb.npy')
             self.dep_embeddings, _, embedding_dim = create_emb_layer(dep_matrix)
