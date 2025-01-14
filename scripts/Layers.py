@@ -2,34 +2,28 @@ import torch
 import torch.nn as nn
 
 class FGM():
-    """ 定义对抗训练方法FGM,对模型embedding参数进行扰动  """
+  
     def __init__(self, model, epsilon=0.25):
         self.model = model                  # BERT模型
         self.epsilon = epsilon              # 求干扰时的系数值
         self.backup = {}
     def attack(self, emb_name='word_embeddings'):
-        """ 得到对抗样本
-            :param emb_name:模型中embedding的参数名
-            :return: """
-        for name, param in self.model.named_parameters():          # 循环遍历模型所有参数
-            # 如果当前参数在计算中保留了对应的梯度信息，并且包含了模型中embedding的参数名
+       
+        for name, param in self.model.named_parameters():         
             if param.requires_grad and emb_name in name:
-                self.backup[name] = param.data.clone()              # 把真实参数保存起来
-                norm = torch.norm(param.grad)                       # 对参数的梯度求范数
-                if norm != 0 and not torch.isnan(norm):             # 如果范数不等于0并且norm中没有缺失值
-                    r_at = self.epsilon * param.grad / norm         # 计算扰动，param.grad / norm=单位向量，起到了sgn(param.grad)一样的作用
+                self.backup[name] = param.data.clone()             
+                norm = torch.norm(param.grad)                       
+                if norm != 0 and not torch.isnan(norm):           
+                    r_at = self.epsilon * param.grad / norm        
 
-                    param.data.add_(r_at)                           # 在原参数的基础上添加扰动
+                    param.data.add_(r_at)                          
     def restore(self, emb_name='word_embeddings'):
-        """ 将模型原本的参数复原
-            :param emb_name:模型中embedding的参数名    """
-        for name, param in self.model.named_parameters():          # 循环遍历模型所有参数
-            # 如果当前参数在计算中保留了对应的梯度信息，并且包含了模型中embedding的参数名
+        for name, param in self.model.named_parameters():         
             if param.requires_grad and emb_name in name:
-                assert name in self.backup       # 断言
-                param.data = self.backup[name]      # 取出模型真实参数
+                assert name in self.backup       
+                param.data = self.backup[name]      
 
-        self.backup = {}        # 清空self.backup
+        self.backup = {}        
 
 
 
